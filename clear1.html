@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>爆弾解除成功</title>
+
+<style>
+
+@font-face{
+    font-family:'marumoji';
+    src:url('marumoji.ttf');
+}
+
+body{
+    font-family:'marumoji',sans-serif;
+    padding:20px;
+    text-align:center;
+    font-size:24px;
+    line-height:1.8;
+}
+
+#storyButton{
+    margin-top:30px;
+}
+
+button{
+    padding:12px 24px;
+    font-size:22px;
+    cursor:pointer;
+}
+
+#movieArea{
+    display:none;
+    margin-top:30px;
+}
+
+video{
+    width:100%;
+    max-width:700px;
+}
+
+#finishButton{
+    display:none;
+    margin-top:20px;
+}
+
+</style>
+</head>
+<body>
+
+<div id="storyArea">
+
+<p>
+
+だよねだよね！
+
+<ruby>信<rt>しん</rt></ruby>じてたよ！
+
+…いやまあ
+<ruby>解<rt>と</rt></ruby>けて
+<ruby>当然<rt>とうぜん</rt></ruby>なんだけどさ、
+
+でもよかったー。
+
+<ruby>驚<rt>おどろ</rt></ruby>かせるようなことしてごめんね？
+
+また
+<ruby>改<rt>あらた</rt></ruby>めてチケットは
+<ruby>送<rt>おく</rt></ruby>るね～
+
+</p>
+
+<button
+id="storyButton"
+onclick="showMovie()">
+数日後…
+</button>
+
+</div>
+
+<div id="movieArea">
+
+<video id="endingVideo" controls>
+
+<source src="bikkuribako.mp4" type="video/mp4">
+
+</video>
+
+<br><br>
+
+<button
+id="finishButton"
+onclick="location.href='ending.html'">
+この作品を終わる
+</button>
+
+</div>
+
+<script>
+
+function showMovie(){
+
+    document.getElementById(
+        "movieArea"
+    ).style.display="block";
+
+}
+
+const video=
+document.getElementById(
+    "endingVideo"
+);
+
+video.addEventListener(
+"loadeddata",
+()=>{
+    document.getElementById(
+        "finishButton"
+    ).style.display="inline-block";
+}
+);
+
+</script>
+
+</body>
+</html>
