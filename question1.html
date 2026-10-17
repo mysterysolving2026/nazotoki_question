@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>問題①②③</title>
+
+<style>
+
+@font-face{
+ font-family:'marumoji';
+ src:url('marumoji.ttf');
+}
+
+@font-face{
+ font-family:'digital';
+ src:url('digital.ttf');
+}
+
+body{
+ font-family:'marumoji',sans-serif;
+ padding:20px;
+ font-size:22px;
+}
+
+.timer{
+ border:3px solid #000;
+ width:180px;
+ text-align:center;
+ margin:auto;
+ padding:10px;
+ font-size:40px;
+ font-family:'digital';
+}
+
+input{
+ width:100%;
+ font-size:22px;
+ padding:10px;
+}
+
+button{
+ font-family:'marumoji',sans-serif;
+ width:100%;
+ font-size:22px;
+ padding:12px;
+ margin-top:10px;
+}
+
+.result{
+ font-weight:bold;
+ margin-top:10px;
+}
+
+#nextBtn{
+ display:none;
+ margin-top:30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="timer" id="timer">20:00</div>
+
+<h2>① <ruby>杏<rt>あんず</rt></ruby>ちゃんのMBTIは？</h2>
+
+<input id="q1">
+<button onclick="checkQ1()">決定</button>
+<div id="r1" class="result"></div>
+
+<h2>② <ruby>星<rt>ほし</rt></ruby>を
+<ruby>重<rt>かさ</rt></ruby>ねて
+<ruby>月<rt>つき</rt></ruby>を
+<ruby>見<rt>み</rt></ruby>るとき、
+<ruby>秒針<rt>びょうしん</rt></ruby>、
+<ruby>長針<rt>ちょうしん</rt></ruby>、
+<ruby>短針<rt>たんしん</rt></ruby>が
+<ruby>指<rt>さ</rt></ruby>す
+<ruby>数字<rt>すうじ</rt></ruby>は？</h2>
+
+<input id="q2">
+<button onclick="checkQ2()">決定</button>
+<div id="r2" class="result"></div>
+
+<h2>③ <ruby>新曲<rt>しんきょく</rt></ruby>のタイトルは？</h2>
+
+<input id="q3">
+<button onclick="checkQ3()">決定</button>
+<div id="r3" class="result"></div>
+
+<button id="nextBtn"
+onclick="location.href='question2.html'">
+次のページへ
+</button>
+
+<script>
+
+if(!localStorage.getItem("mainTimerStart")){
+ localStorage.setItem(
+  "mainTimerStart",
+  Date.now()
+ );
+}
+
+function updateTimer(){
+
+    const extendMode =
+    localStorage.getItem("extendMode");
+
+    let remain;
+
+    if(extendMode==="1"){
+
+        const start =
+        Number(
+            localStorage.getItem(
+                "extendStart"
+            )
+        );
+
+        remain =
+        10*60*1000 -
+        (Date.now()-start);
+
+    }else{
+
+        const start =
+        Number(
+            localStorage.getItem(
+                "mainTimerStart"
+            )
+        );
+
+        remain =
+        20*60*1000 -
+        (Date.now()-start);
+
+    }
+
+    if(remain<=0){
+
+        localStorage.setItem(
+            "lastPage",
+            "question1.html"
+        );
+
+        location.href =
+        "gameover1.html";
+
+        return;
+    }
+
+    const m =
+    Math.floor(remain/60000);
+
+    const s =
+    Math.floor(
+        (remain%60000)/1000
+    );
+
+    document.getElementById("timer").innerText =
+        String(m).padStart(2,"0")
+        + ":"
+        +
+        String(s).padStart(2,"0");
+}
+
+setInterval(updateTimer,1000);
+updateTimer();
+
+
+function checkQ1(){
+
+ let v=document.getElementById("q1").value.trim();
+
+ if(v==="3635"){
+  r1.innerText="正解！";
+  localStorage.setItem("q1_ok","1");
+ }else{
+  r1.innerText="間違ってるよ";
+ }
+ save();
+ checkAll();
+}
+
+function checkQ2(){
+
+ let v=document.getElementById("q2").value.trim();
+
+ if(v==="4701"){
+  r2.innerText="正解！";
+  localStorage.setItem("q2_ok","1");
+ }else{
+  r2.innerText="間違ってるよ";
+ }
+ save();
+ checkAll();
+}
+
+function checkQ3(){
+
+ let v=document.getElementById("q3").value.trim();
+
+ if(
+  v==="アンブレラサンセット" ||
+  v==="あんぶれらさんせっと"
+ ){
+  r3.innerText="正解！";
+  localStorage.setItem("q3_ok","1");
+ }else{
+  r3.innerText="間違ってるよ";
+ }
+
+ save();
+ checkAll();
+}
+
+function checkAll(){
+
+ if(
+ localStorage.getItem("q1_ok")==="1" &&
+ localStorage.getItem("q2_ok")==="1" &&
+ localStorage.getItem("q3_ok")==="1"
+ ){
+  nextBtn.style.display="block";
+ }
+}
+
+function save(){
+ localStorage.setItem("q1v",q1.value);
+ localStorage.setItem("q2v",q2.value);
+ localStorage.setItem("q3v",q3.value);
+}
+
+window.onload=()=>{
+
+ q1.value=localStorage.getItem("q1v")||"";
+ q2.value=localStorage.getItem("q2v")||"";
+ q3.value=localStorage.getItem("q3v")||"";
+
+ if(localStorage.getItem("q1_ok")==="1")
+  r1.innerText="正解！";
+
+ if(localStorage.getItem("q2_ok")==="1")
+  r2.innerText="正解！";
+
+ if(localStorage.getItem("q3_ok")==="1")
+  r3.innerText="正解！";
+
+ checkAll();
+};
+
+</script>
+
+</body>
+</html>
