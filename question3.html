@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>問題⑥</title>
+
+<style>
+
+@font-face{
+    font-family:'marumoji';
+    src:url('marumoji.ttf');
+}
+
+@font-face{
+    font-family:'digital';
+    src:url('digital.ttf');
+}
+
+body{
+    font-family:'marumoji',sans-serif;
+    padding:20px;
+    text-align:center;
+    font-size:24px;
+}
+
+.timer{
+    border:3px solid black;
+    width:200px;
+    margin:auto;
+    padding:10px;
+    font-size:42px;
+    font-family:'digital';
+}
+
+input{
+    width:80%;
+    padding:10px;
+    font-size:24px;
+}
+
+button{
+    padding:12px 20px;
+    font-size:24px;
+    margin-top:10px;
+}
+
+.result{
+    margin-top:15px;
+    font-weight:bold;
+}
+
+#clearArea{
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="timer" id="timer">20:00</div>
+
+<br>
+
+<h2>⑥ A' × B' × C' =</h2>
+
+<input id="answer">
+
+<br>
+
+<button onclick="checkAnswer()">
+決定
+</button>
+
+<div id="result" class="result"></div>
+
+<div id="clearArea">
+
+<h2>
+<ruby>爆弾解除成功<rt>ばくだんかいじょせいこう</rt></ruby>！
+</h2>
+
+<button onclick="location.href='clear1.html'">
+次のページへ
+</button>
+
+</div>
+
+<script>
+
+let timerStopped = false;
+
+function checkAnswer(){
+
+    const value =
+    document.getElementById("answer")
+    .value
+    .trim();
+
+    if(value === "2070"){
+
+        result.innerText = "正解！";
+
+        timerStopped = true;
+
+        localStorage.setItem(
+            "bombCleared",
+            "1"
+        );
+
+        localStorage.setItem(
+            "timerStoppedDisplay",
+            timer.innerText
+        );
+
+        clearArea.style.display="block";
+
+    }else{
+
+        result.innerText="間違ってるよ";
+    }
+}
+
+function updateTimer(){
+
+    if(timerStopped){
+
+        return;
+    }
+
+    const extendMode=
+    localStorage.getItem("extendMode");
+
+    let remain;
+
+    if(extendMode==="1"){
+
+        const start=
+        Number(localStorage.getItem("extendStart"));
+
+        remain=
+        10*60*1000-
+        (Date.now()-start);
+
+    }else{
+
+        const start=
+        Number(localStorage.getItem("mainTimerStart"));
+
+        remain=
+        20*60*1000-
+        (Date.now()-start);
+
+    }
+
+    if(remain<=0){
+
+        localStorage.setItem(
+            "lastPage",
+            "question3.html"
+        );
+
+        location.href="gameover1.html";
+        return;
+    }
+
+    const min=
+    Math.floor(remain/60000);
+
+    const sec=
+    Math.floor(
+        (remain%60000)/1000
+    );
+
+    timer.innerText=
+    String(min).padStart(2,"0")
+    +":"
+    +
+    String(sec).padStart(2,"0");
+
+}
+
+window.onload=()=>{
+
+    answer.value=
+    localStorage.getItem("q6") || "";
+
+    if(
+        localStorage.getItem(
+            "bombCleared"
+        )==="1"
+    ){
+
+        result.innerText="正解！";
+
+        timerStopped=true;
+
+        timer.innerText=
+        localStorage.getItem(
+            "timerStoppedDisplay"
+        );
+
+        clearArea.style.display="block";
+    }
+
+};
+
+answer.addEventListener(
+"input",
+()=>{
+ localStorage.setItem(
+   "q6",
+   answer.value
+ );
+}
+);
+
+setInterval(updateTimer,1000);
+updateTimer();
+
+</script>
+
+</body>
+</html>
