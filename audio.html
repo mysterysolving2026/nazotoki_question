@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>音声</title>
+
+<style>
+
+@font-face{
+    font-family:'marumoji';
+    src:url('marumoji.ttf');
+}
+
+body{
+    font-family:'marumoji',sans-serif;
+    text-align:center;
+    padding:20px;
+    font-size:24px;
+}
+
+.controls{
+    font-family:'marumoji',sans-serif;
+    margin-top:20px;
+}
+
+button{
+    font-family:'marumoji',sans-serif;
+    font-size:22px;
+    padding:12px 20px;
+    margin:5px;
+}
+
+input[type=range]{
+    width:100%;
+}
+
+#nextBtn{
+    font-family:'marumoji',sans-serif;
+    display:none;
+    margin-top:30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>音声</h1>
+
+<audio id="audio" src="jingle_23.mp3">
+    jingle_23.mp3
+</audio>
+
+<input
+type="range"
+id="seekBar"
+value="0"
+min="0"
+max="100">
+
+<div id="timeDisplay">
+0:00 / 0:00
+</div>
+
+<div class="controls">
+<button onclick="playAudio()"> 聞く</button>
+<button onclick="pauseAudio()"> 一時停止</button>
+<button onclick="restartAudio()"> もう一度聞く</button>
+</div>
+
+<button id="nextBtn"
+onclick="startGame()">
+次のページへ
+</button>
+
+<script>
+
+const audio=document.getElementById("audio");
+const seekBar=document.getElementById("seekBar");
+
+function playAudio(){
+ audio.play();
+}
+
+function pauseAudio(){
+ audio.pause();
+}
+
+function restartAudio(){
+ audio.currentTime=0;
+ audio.play();
+}
+
+function startGame(){
+
+    localStorage.clear();
+
+    localStorage.setItem(
+        "mainTimerStart",
+        Date.now()
+    );
+
+    location.href="question1.html";
+}
+
+audio.addEventListener("timeupdate",()=>{
+
+seekBar.max=audio.duration || 0;
+seekBar.value=audio.currentTime;
+
+document.getElementById("timeDisplay").innerText=
+format(audio.currentTime)+" / "+
+format(audio.duration);
+
+});
+
+seekBar.addEventListener("input",()=>{
+ audio.currentTime=seekBar.value;
+});
+
+audio.addEventListener("ended",()=>{
+ document.getElementById("nextBtn").style.display="block";
+});
+
+function format(sec){
+ if(isNaN(sec)) return "0:00";
+
+ let m=Math.floor(sec/60);
+ let s=Math.floor(sec%60);
+
+ return m+":"+
+ String(s).padStart(2,"0");
+}
+
+</script>
+
+</body>
+</html>
