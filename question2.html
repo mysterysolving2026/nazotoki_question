@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>問題④⑤</title>
+
+<style>
+
+@font-face{
+    font-family:'marumoji';
+    src:url('marumoji.ttf');
+}
+
+@font-face{
+    font-family:'digital';
+    src:url('digital.ttf');
+}
+
+body{
+    background:black;
+    color:white;
+    font-family:'marumoji',sans-serif;
+    padding:20px;
+    font-size:22px;
+}
+
+.timer{
+    border:3px solid white;
+    width:180px;
+    margin:auto;
+    text-align:center;
+    padding:10px;
+    font-size:40px;
+    font-family:'digital';
+}
+
+input{
+    width:100%;
+    padding:10px;
+    font-size:20px;
+    margin-top:5px;
+}
+
+button{
+    font-family:'marumoji',sans-serif;
+    background:white;
+    color:black;
+    width:100%;
+    padding:12px;
+    font-size:22px;
+    margin-top:10px;
+}
+
+.result{
+    margin-top:10px;
+    font-weight:bold;
+}
+
+#bombArea{
+    display:none;
+    margin-top:30px;
+    text-align:center;
+}
+
+#backBtn{
+    width:100%;
+}
+
+#secretBtn{
+
+    display:none;
+
+    background:#000000;
+    border:1px solid #000000;
+
+    color:#4b006e;
+
+    width:70px;
+    font-size:14px;
+
+    margin:15px auto 0 auto;
+
+    animation:moveBtn 6s ease-in-out infinite;
+}
+
+@keyframes moveBtn{
+    0%{transform:translateX(-30px);}
+    50%{transform:translateX(30px);}
+    100%{transform:translateX(-30px);}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="timer" id="timer">20:00</div>
+
+<p>
+<ruby>爆弾<rt>ばくだん</rt></ruby>の
+<ruby>色<rt>いろ</rt></ruby>コードの
+<ruby>中<rt>なか</rt></ruby>で
+<ruby>切<rt>き</rt></ruby>るコードの
+<ruby>色<rt>いろ</rt></ruby>を
+<ruby>決<rt>き</rt></ruby>めるよ
+</p>
+
+<hr>
+
+<h2>
+④
+<ruby>歌詞<rt>かし</rt></ruby>に
+<ruby>隠<rt>かく</rt></ruby>された
+<ruby>色<rt>いろ</rt></ruby>は？
+</h2>
+
+<input id="q4_1">
+<input id="q4_2">
+
+<button onclick="checkQ4()">決定</button>
+
+<div id="r4" class="result"></div>
+
+<hr>
+
+<h2>
+⑤
+<ruby>紙<rt>かみ</rt></ruby>を
+<ruby>折<rt>お</rt></ruby>って、
+<ruby>現<rt>あらわ</rt></ruby>れた
+2<ruby>色<rt>しょく</rt></ruby>は
+<ruby>何<rt>なに</rt></ruby>？
+</h2>
+
+<input id="q5_1">
+<input id="q5_2">
+
+<button onclick="checkQ5()">決定</button>
+
+<div id="r5" class="result"></div>
+
+<div id="bombArea">
+
+<h2>
+<ruby>爆弾解除<rt>ばくだんかいじょ</rt></ruby>？
+</h2>
+
+<button id="backBtn"
+onclick="location.href='question1.html'">
+次のページへ
+</button>
+
+</div>
+
+<button
+id="secretBtn"
+onclick="location.href='question3.html'">
+次
+</button>
+
+<script>
+
+function normalize(v){
+    return v.trim();
+}
+
+const blackSet=["黒","くろ","黒色","くろいろ"];
+const blueSet=["青","あお","青色","あおいろ"];
+
+const redSet=["赤","あか","赤色","あかいろ"];
+const orangeSet=["橙","だいだい","橙色","だいだいいろ"];
+
+function countColors(values,setA,setB){
+
+    let hitA=false;
+    let hitB=false;
+
+    values.forEach(v=>{
+
+        if(setA.includes(v)) hitA=true;
+        if(setB.includes(v)) hitB=true;
+
+    });
+
+    return Number(hitA)+Number(hitB);
+}
+
+function checkQ4(){
+
+    const vals=[
+        normalize(q4_1.value),
+        normalize(q4_2.value)
+    ];
+
+    let count=countColors(vals,blackSet,blueSet);
+
+    if(count===0){
+        r4.innerText="間違ってるよ";
+    }
+    else if(count===1){
+        r4.innerText="1色正解！";
+    }
+    else{
+        r4.innerText="2色正解！";
+        localStorage.setItem("q4_ok","1");
+    }
+
+    saveData();
+    checkComplete();
+}
+
+function checkQ5(){
+
+    const vals=[
+        normalize(q5_1.value),
+        normalize(q5_2.value)
+    ];
+
+    let count=countColors(vals,redSet,orangeSet);
+
+    if(count===0){
+        r5.innerText="間違ってるよ";
+    }
+    else if(count===1){
+        r5.innerText="1色正解！";
+    }
+    else{
+        r5.innerText="2色正解！";
+        localStorage.setItem("q5_ok","1");
+    }
+
+    saveData();
+    checkComplete();
+}
+
+function saveData(){
+
+    localStorage.setItem("q4_1",q4_1.value);
+    localStorage.setItem("q4_2",q4_2.value);
+
+    localStorage.setItem("q5_1",q5_1.value);
+    localStorage.setItem("q5_2",q5_2.value);
+
+}
+
+function checkComplete(){
+
+    if(
+        localStorage.getItem("q4_ok")==="1"
+        &&
+        localStorage.getItem("q5_ok")==="1"
+    ){
+
+        bombArea.style.display="block";
+        secretBtn.style.display="block";
+
+    }
+
+}
+
+window.onload=()=>{
+
+    q4_1.value=localStorage.getItem("q4_1")||"";
+    q4_2.value=localStorage.getItem("q4_2")||"";
+
+    q5_1.value=localStorage.getItem("q5_1")||"";
+    q5_2.value=localStorage.getItem("q5_2")||"";
+
+    if(localStorage.getItem("q4_ok")==="1"){
+        r4.innerText="2色正解！";
+    }
+
+    if(localStorage.getItem("q5_ok")==="1"){
+        r5.innerText="2色正解！";
+    }
+
+    checkComplete();
+
+};
+
+function updateTimer(){
+
+    const extendMode =
+    localStorage.getItem("extendMode");
+
+    let remain;
+
+    if(extendMode==="1"){
+
+        const start =
+        Number(
+            localStorage.getItem(
+                "extendStart"
+            )
+        );
+
+        remain =
+        10*60*1000 -
+        (Date.now()-start);
+
+    }else{
+
+        const start =
+        Number(
+            localStorage.getItem(
+                "mainTimerStart"
+            )
+        );
+
+        remain =
+        20*60*1000 -
+        (Date.now()-start);
+
+    }
+
+    if(remain<=0){
+
+        localStorage.setItem(
+            "lastPage",
+            "question2.html"
+        );
+
+        location.href =
+        "gameover1.html";
+
+        return;
+    }
+
+    const m =
+    Math.floor(remain/60000);
+
+    const s =
+    Math.floor(
+        (remain%60000)/1000
+    );
+
+    timer.innerText =
+        String(m).padStart(2,"0")
+        + ":"
+        +
+        String(s).padStart(2,"0");
+}
+
+setInterval(updateTimer,1000);
+updateTimer();
+
+</script>
+
+</body>
+</html>
