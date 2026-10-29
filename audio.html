@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>音声</title>
+<title>メッセージ</title>
 
 <style>
 
@@ -15,33 +15,26 @@
 
 body{
     font-family:'marumoji',sans-serif;
-    text-align:center;
     padding:20px;
     font-size:24px;
+    line-height:1.9;
 }
 
-.controls{
-    font-family:'marumoji',sans-serif;
-    margin-top:20px;
+.message{
+    max-width:900px;
+    margin:auto;
 }
 
 button{
-    font-family:'marumoji',sans-serif;
-    font-size:22px;
-    padding:12px 20px;
-    border:none;
-    border-radius:10px;
-    margin:5px;
-}
 
-input[type=range]{
     width:100%;
-}
 
-#nextBtn{
-    font-family:'marumoji',sans-serif;
-    display:none;
-    margin-top:30px;
+    padding:15px;
+
+    font-size:24px;
+
+    margin-top:50px;
+
 }
 
 </style>
@@ -49,51 +42,96 @@ input[type=range]{
 
 <body>
 
-<h1>音声</h1>
+<div class="message">
 
-<audio id="audio" src="jingle_23.mp3">
-    jingle_23.mp3
-</audio>
+<p>
 
-<input
-type="range"
-id="seekBar"
-value="0"
-min="0"
-max="100">
+<ruby>翼<rt>つばさ</rt></ruby>くん！
 
-<div id="timeDisplay">
-0:00 / 0:00
-</div>
+この<ruby>紙袋<rt>かみぶくろ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>にあるのが、<ruby>前<rt>まえ</rt></ruby>に<ruby>君<rt>きみ</rt></ruby>に<ruby>頼<rt>たの</rt></ruby>まれてた
+サインボールだよ！
 
-<div class="controls">
-<button onclick="playAudio()"> 聞く</button>
-<button onclick="pauseAudio()"> 一時停止</button>
-<button onclick="restartAudio()"> もう一度聞く</button>
-</div>
+<ruby>僕<rt>ぼく</rt></ruby>はいっぱいゲットしてるとはいえ<ruby>超<rt>ちょう</rt></ruby>レアなやつだから<ruby>大事<rt>だいじ</rt></ruby>にしてね！
 
-<button id="nextBtn"
-onclick="startGame()">
+</p>
+
+<p>
+
+…って<ruby>言<rt>い</rt></ruby>いたいところなんだけど
+
+<ruby>君<rt>きみ</rt></ruby>も<ruby>知<rt>し</rt></ruby>っての<ruby>通<rt>とお</rt></ruby>り
+
+<ruby>僕<rt>ぼく</rt></ruby>ってにわかファンは<ruby>大嫌<rt>だいきら</rt></ruby>いなんだよね。
+
+だからさ、
+
+<ruby>僕<rt>ぼく</rt></ruby>の<ruby>神聖<rt>しんせい</rt></ruby>なグッズを<ruby>譲<rt>ゆず</rt></ruby>り<ruby>渡<rt>わた</rt></ruby>すなら、
+
+<ruby>君<rt>きみ</rt></ruby>はにわかじゃないってことを<ruby>証明<rt>しょうめい</rt></ruby>してほしいんだ！
+
+</p>
+
+<p>
+
+そのためにも
+
+<ruby>君<rt>きみ</rt></ruby>には<ruby>今<rt>いま</rt></ruby>から
+
+<ruby>僕<rt>ぼく</rt></ruby>の<ruby>出<rt>だ</rt></ruby>す<ruby>問題<rt>もんだい</rt></ruby>を<ruby>解<rt>と</rt></ruby>いてもらう！
+
+６０<ruby>分<rt>ぷん</rt></ruby>もあれば<ruby>解<rt>と</rt></ruby>けるよね？
+
+でも<ruby>安心<rt>あんしん</rt></ruby>して？<ruby>簡単<rt>かんたん</rt></ruby>なやつだから…<ruby>本当<rt>ほんとう</rt></ruby>のファンならね。
+
+</p>
+
+<p>
+
+もしだよ？
+
+ないとは<ruby>思<rt>おも</rt></ruby>うけど、
+
+もし、<ruby>解<rt>と</rt></ruby>けないなんてことがあれば
+
+そんな<ruby>奴<rt>やつ</rt></ruby>
+
+この<ruby>世<rt>よ</rt></ruby>に<ruby>要<rt>い</rt></ruby>らないと<ruby>思<rt>おも</rt></ruby>うんだよね…！
+
+そんな<ruby>奴<rt>やつ</rt></ruby>の<ruby>口車<rt>くちぐるま</rt></ruby>に<ruby>乗<rt>の</rt></ruby>せられた<ruby>自分<rt>じぶん</rt></ruby>も<ruby>許<rt>ゆる</rt></ruby>せないし…
+
+だからね！！
+
+そんな<ruby>奴<rt>やつ</rt></ruby>には<ruby>死<rt>し</rt></ruby>んでもらおうと<ruby>思<rt>おも</rt></ruby>うんだ！
+
+</p>
+
+<p>
+
+<ruby>袋<rt>ふくろ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ってるチェキはあげるよ！
+
+これも<ruby>昔<rt>むかし</rt></ruby>のプレミアだし…
+
+<ruby>最後<rt>さいご</rt></ruby>の<ruby>餞別<rt>せんべつ</rt></ruby>に、ね…
+
+</p>
+
+<br><br>
+
+<p>
+
+<ruby>信<rt>しん</rt></ruby>じてるよ…？
+
+<ruby>君<rt>きみ</rt></ruby>は、<ruby>君<rt>きみ</rt></ruby>だけは、<ruby>裏切<rt>うらぎ</rt></ruby>らないって…
+
+</p>
+
+<button onclick="startGame()">
 次のページへ
 </button>
 
+</div>
+
 <script>
-
-const audio=document.getElementById("audio");
-const seekBar=document.getElementById("seekBar");
-
-function playAudio(){
- audio.play();
-}
-
-function pauseAudio(){
- audio.pause();
-}
-
-function restartAudio(){
- audio.currentTime=0;
- audio.play();
-}
 
 function startGame(){
 
@@ -105,35 +143,6 @@ function startGame(){
     );
 
     location.href="question1.html";
-}
-
-audio.addEventListener("timeupdate",()=>{
-
-seekBar.max=audio.duration || 0;
-seekBar.value=audio.currentTime;
-
-document.getElementById("timeDisplay").innerText=
-format(audio.currentTime)+" / "+
-format(audio.duration);
-
-});
-
-seekBar.addEventListener("input",()=>{
- audio.currentTime=seekBar.value;
-});
-
-audio.addEventListener("ended",()=>{
- document.getElementById("nextBtn").style.display="block";
-});
-
-function format(sec){
- if(isNaN(sec)) return "0:00";
-
- let m=Math.floor(sec/60);
- let s=Math.floor(sec%60);
-
- return m+":"+
- String(s).padStart(2,"0");
 }
 
 </script>
